@@ -1,5 +1,5 @@
 # exams/views.py
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from worksheets.models import Worksheet
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -9,8 +9,15 @@ from .services.grader import grade_exam_attempt
 # NOTE: We'll add @login_required later to protect this page
 # from django.contrib.auth.decorators import login_required 
 
-# @login_required
+@login_required
 def student_dashboard(request):
+    # --- ADD THIS ROLE CHECK ---
+    # If the user is a teacher, send them to their own dashboard.
+    if hasattr(request.user, 'profile') and request.user.profile.role == 'teacher':
+        return redirect('teacher_dashboard')
+    # --- END OF CHECK ---
+
+    # This code will now only run for students.
     worksheets = Worksheet.objects.all().order_by('-created_at')
     context = {
         'worksheets': worksheets

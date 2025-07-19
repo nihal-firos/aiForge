@@ -39,6 +39,7 @@
                         </td>
                         <td class="p-4">
                             <a href="{% url 'worksheet_attempts' worksheet_pk=worksheet.pk %}" class="text-indigo-600 hover:text-indigo-900 font-semibold">View Attempts</a>
+                            <a href="{% url 'delete_worksheet' worksheet_pk=worksheet.pk %}" class="text-red-600 hover:text-red-900 font-semibold ml-4">Delete</a>
                         </td>
                     </tr>
                     {% empty %}

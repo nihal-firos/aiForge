@@ -104,12 +104,10 @@ def download_worksheet_pdf(request, pk):
 @login_required
 def teacher_dashboard(request):
     """
-    Displays a list of all worksheets with aggregated data on student attempts.
+    Displays a list of worksheets created by the logged-in teacher.
     """
-    # Note: For a multi-teacher app, you would filter by request.user
-    # worksheets = Worksheet.objects.filter(created_by=request.user) ...
-
-    worksheets = Worksheet.objects.annotate(
+    # This filter is the key to enforcing ownership.
+    worksheets = Worksheet.objects.filter(created_by=request.user).annotate(
         attempt_count=Count('examattempt'),
         average_score=Avg('examattempt__score')
     ).order_by('-created_at')
@@ -118,6 +116,7 @@ def teacher_dashboard(request):
         'worksheets': worksheets
     }
     return render(request, 'worksheets/teacher_dashboard.html', context)
+
 
 @login_required
 def worksheet_attempts(request, worksheet_pk):
@@ -133,3 +132,17 @@ def worksheet_attempts(request, worksheet_pk):
         'attempts': attempts,
     }
     return render(request, 'worksheets/worksheet_attempts.html', context)
+
+@login_required
+def delete_worksheet(request, worksheet_pk):
+    # Fetch the worksheet, ensuring it belongs to the logged-in teacher
+    worksheet = get_object_or_404(Worksheet, pk=worksheet_pk, created_by=request.user)
+    
+    if request.method == 'POST':
+        # If the form is submitted, delete the object and redirect
+        worksheet.delete()
+        return redirect('teacher_dashboard')
+        
+    # If it's a GET request, show the confirmation page
+    context = {'worksheet': worksheet}
+    return render(request, 'worksheets/delete_confirm.html', context)

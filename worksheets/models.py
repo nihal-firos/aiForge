@@ -1,5 +1,6 @@
 # worksheets/models.py
 from django.db import models
+from django.contrib.auth.models import User
 # from django.contrib.auth.models import User # For later
 
 class Worksheet(models.Model):
@@ -7,6 +8,7 @@ class Worksheet(models.Model):
     subject = models.CharField(max_length=100)
     grade_level = models.CharField(max_length=50, help_text="e.g., '6th Grade'")
     created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.title
