@@ -1,0 +1,42 @@
+<h1>{{ worksheet.title }}</h1>
+<p><strong>Subject:</strong> {{ worksheet.subject }} | <strong>Grade:</strong> {{ worksheet.grade_level }}</p>
+
+<hr>
+
+<h2>Multiple Choice Questions</h2>
+<ol>
+{% for q in worksheet.questions.all %}
+    {% if q.question_type == 'mcq' %}
+    <li>
+        <p>{{ q.text }}</p>
+        <ul>
+        {% for key, value in q.options.items %}
+            <li>{{ key }}: {{ value }}</li>
+        {% endfor %}
+        </ul>
+        <p><strong>Correct Answer:</strong> {{ q.correct_answer }}</p>
+    </li>
+    {% endif %}
+{% endfor %}
+</ol>
+
+<h2>Short Answer Questions</h2>
+<ol>
+{% for q in worksheet.questions.all %}
+    {% if q.question_type == 'short_answer' %}
+    <li>
+        <p>{{ q.text }}</p>
+        <p><strong>Model Answer:</strong> {{ q.correct_answer }}</p>
+    </li>
+    {% endif %}
+{% endfor %}
+</ol>
+
+<h1>{{ worksheet.title }}</h1>
+<p><strong>Subject:</strong> {{ worksheet.subject }} | <strong>Grade:</strong> {{ worksheet.grade_level }}</p>
+
+<a href="{% url 'download_worksheet_pdf' pk=worksheet.pk %}" style="text-decoration: none; background-color: #4CAF50; color: white; padding: 10px 15px; border-radius: 5px;">
+    Download PDF
+</a>
+
+<hr>

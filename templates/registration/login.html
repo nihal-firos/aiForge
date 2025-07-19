@@ -1,0 +1,58 @@
+{% extends 'base_auth.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100 flex items-center justify-center p-4">
+
+    <div class="max-w-md w-full bg-white/70 backdrop-blur-xl rounded-2xl shadow-2xl p-8">
+        
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-900">Welcome Back</h1>
+            <p class="text-gray-500 mt-2">Please sign in to continue</p>
+        </div>
+
+        {% if form.errors %}
+          <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded-lg" role="alert">
+            <p>Your username and password didn't match.</p>
+          </div>
+        {% endif %}
+
+        <form method="post" class="space-y-6">
+            {% csrf_token %}
+            <div>
+                <label for="{{ form.username.id_for_label }}" class="text-sm font-bold text-gray-600 block mb-2">Username</label>
+                <input
+                    type="text"
+                    name="{{ form.username.name }}"
+                    id="{{ form.username.id_for_label }}"
+                    class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow"
+                    placeholder="your_username"
+                >
+            </div>
+            <div>
+                <label for="{{ form.password.id_for_label }}" class="text-sm font-bold text-gray-600 block mb-2">Password</label>
+                <input
+                    type="password"
+                    name="{{ form.password.name }}"
+                    id="{{ form.password.id_for_label }}"
+                    class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow"
+                    placeholder="••••••••"
+                >
+            </div>
+            <div>
+                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-300 ease-in-out transform hover:-translate-y-1">
+                    Sign In
+                </button>
+            </div>
+        </form>
+
+        <p class="text-center text-gray-600 text-sm mt-8">
+            Don't have an account? 
+            <a href="{% url 'register' %}" class="font-semibold text-indigo-600 hover:text-indigo-800">Sign Up</a>
+        </p>
+
+    </div>
+
+</div>
+{% endblock %}

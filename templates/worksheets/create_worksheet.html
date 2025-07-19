@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}Create New Worksheet{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <div class="bg-white shadow-2xl rounded-xl p-8">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800">Create a New Worksheet 🧠</h1>
+            <p class="text-gray-500">Fill in the details below to generate questions with AI.</p>
+        </div>
+        
+        <form method="post" class="space-y-6">
+            {% csrf_token %}
+
+            <div>
+                <label for="{{ form.subject.id_for_label }}" class="block text-sm font-bold text-gray-700 mb-1">Subject</label>
+                <input 
+                    type="text" 
+                    name="{{ form.subject.name }}" 
+                    id="{{ form.subject.id_for_label }}"
+                    value="{{ form.subject.value|default:'' }}"
+                    class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    placeholder="e.g., Physics"
+                >
+            </div>
+
+            <div>
+                <label for="{{ form.grade_level.id_for_label }}" class="block text-sm font-bold text-gray-700 mb-1">Grade Level</label>
+                <input 
+                    type="text" 
+                    name="{{ form.grade_level.name }}" 
+                    id="{{ form.grade_level.id_for_label }}"
+                    value="{{ form.grade_level.value|default:'' }}"
+                    class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    placeholder="e.g., 10th Grade"
+                >
+            </div>
+
+            <div>
+                <label for="{{ form.topic.id_for_label }}" class="block text-sm font-bold text-gray-700 mb-1">Topic</label>
+                <input 
+                    type="text" 
+                    name="{{ form.topic.name }}" 
+                    id="{{ form.topic.id_for_label }}"
+                    value="{{ form.topic.value|default:'' }}"
+                    class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    placeholder="e.g., Newton's Laws of Motion"
+                >
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="{{ form.num_mcq.id_for_label }}" class="block text-sm font-bold text-gray-700 mb-1">{{ form.num_mcq.label }}</label>
+                    <input 
+                        type="number" 
+                        name="{{ form.num_mcq.name }}" 
+                        id="{{ form.num_mcq.id_for_label }}"
+                        value="{{ form.num_mcq.value|default:5 }}"
+                        min="0"
+                        class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    >
+                </div>
+                <div>
+                    <label for="{{ form.num_short_answer.id_for_label }}" class="block text-sm font-bold text-gray-700 mb-1">{{ form.num_short_answer.label }}</label>
+                    <input 
+                        type="number" 
+                        name="{{ form.num_short_answer.name }}" 
+                        id="{{ form.num_short_answer.id_for_label }}"
+                        value="{{ form.num_short_answer.value|default:3 }}"
+                        min="0"
+                        class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    >
+                </div>
+            </div>
+
+            <div>
+                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-300 ease-in-out transform hover:-translate-y-1">
+                    Generate Worksheet
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

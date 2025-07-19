@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Attempts for {{ worksheet.title }}{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4">
+    <div class="mb-8">
+        <a href="{% url 'teacher_dashboard' %}" class="text-indigo-600 hover:text-indigo-900 mb-4 inline-block">&larr; Back to Dashboard</a>
+        <h1 class="text-3xl font-bold text-gray-800">Student Attempts</h1>
+        <p class="text-gray-600">Worksheet: {{ worksheet.title }}</p>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-lg">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b-2 border-gray-200">
+                    <tr>
+                        <th class="p-4 text-sm font-semibold text-gray-600">Student</th>
+                        <th class="p-4 text-sm font-semibold text-gray-600">Date of Attempt</th>
+                        <th class="p-4 text-sm font-semibold text-gray-600">Final Score</th>
+                        <th class="p-4 text-sm font-semibold text-gray-600">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for attempt in attempts %}
+                    <tr class="border-b border-gray-200 hover:bg-gray-50">
+                        <td class="p-4 font-medium text-gray-900">{{ attempt.student.username }}</td>
+                        <td class="p-4 text-gray-700">{{ attempt.start_time|date:"F j, Y, P" }}</td>
+                        <td class="p-4 text-gray-700 font-bold">
+                            {% if attempt.score is not None %}
+                                {{ attempt.score|floatformat:2 }}%
+                            {% else %}
+                                Not Graded
+                            {% endif %}
+                        </td>
+                        <td class="p-4">
+                            <a href="{% url 'exam_results' attempt_pk=attempt.pk %}" class="text-indigo-600 hover:text-indigo-900 font-semibold">View Details</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="p-4 text-center text-gray-500">No students have attempted this worksheet yet.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

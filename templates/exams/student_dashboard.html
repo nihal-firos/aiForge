@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Student Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4">
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-800">Welcome, {{ user.username }}! 👨‍🎓</h1>
+        <p class="text-gray-600">Here are the worksheets available for you to attempt.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for worksheet in worksheets %}
+            <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col justify-between transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
+                <div>
+                    <h2 class="text-xl font-bold text-gray-900 mb-2">{{ worksheet.title }}</h2>
+                    <div class="flex items-center text-sm text-gray-500 mb-4">
+                        <span class="bg-indigo-100 text-indigo-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">{{ worksheet.subject }}</span>
+                        <span class="bg-purple-100 text-purple-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">{{ worksheet.grade_level }}</span>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <a href="{% url 'start_exam' worksheet_pk=worksheet.pk %}" class="w-full text-center bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg inline-block">
+                        Start Exam
+                    </a>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-span-full bg-white rounded-xl shadow p-8 text-center">
+                <h2 class="text-xl font-semibold text-gray-700">No worksheets available</h2>
+                <p class="text-gray-500 mt-2">Please check back later or ask your teacher to create one.</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
