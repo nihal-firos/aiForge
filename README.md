@@ -11,6 +11,8 @@
 
 Checkout: https://aiforge-jyst.onrender.com
 
+Video : https://drive.google.com/file/d/1ieRlTA6rRK9WAeZBUGeVgHvs1yinr0WX/view?usp=sharing
+
 By handling the time-consuming aspects of content creation and evaluation, Classroom AI frees up educators to focus on what matters most: teaching, mentoring, and inspiring their students.
 
 ## Key Features ✨
